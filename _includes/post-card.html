@@ -1,0 +1,14 @@
+<a class="card" href="{{ post.url | relative_url }}">
+<div class="card-inner">
+<div class="card-title">{{ post.title }}</div>
+<div class="card-meta">
+<span>{{ post.date | date: '%Y-%m-%d' }}</span>
+{% if post.tags %}
+<span>· {{ post.tags | join: ', ' }}</span>
+{% endif %}
+</div>
+{% if post.excerpt %}
+<p class="card-desc">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+{% endif %}
+</div>
+</a>

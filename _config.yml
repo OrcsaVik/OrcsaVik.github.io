@@ -1,0 +1,53 @@
+# ---
+# 站点基础信息
+name: "My Cool Nav"
+title: "My Cool Nav"
+description: "炫酷静态导航页 + 博文索引"
+url: "https://github.com/OrcsaVik/OrcsaVik.github.io" # 配置你的仓库 Pages 地址（可留空，GitHub Pages 会自动推断）
+baseurl: "" # 若使用 <user>.github.io 置空；若是项目页，写 "/repo-name"
+
+
+# GitHub Pages 内置构建（无需本地 Gem 安装）
+theme: minima
+
+
+# 本地化与时间
+lang: zh-CN
+timezone: Europe/Paris
+
+
+# 若你文章错误放在 /root/_post/，可启用下列自定义 collection 来兼容：
+# collections:
+# post:
+# output: true
+# permalink: /:categories/:year/:month/:day/:title/
+# # 并在 "defaults" 中让它也被索引
+# defaults:
+# - scope: { path: "root/_post" }
+# values: { layout: post }
+
+
+# 代码高亮
+markdown: kramdown
+highlighter: rouge
+
+
+# 导航开关（自定义）
+nav:
+grid_columns: 4 # 导航卡片每行列数
+show_search: true # 是否显示搜索
+show_tags: true # 是否显示标签区
+
+
+# 站外链接（示例，可在 index.html 中使用 site.external_links）
+external_links:
+- { title: "GitHub", url: "https://github.com" }
+- { title: "Stack Overflow", url: "https://stackoverflow.com" }
+- { title: "MDN Web Docs", url: "https://developer.mozilla.org" }
+
+
+# 构建排除
+exclude:
+- README.md
+# ---
+
