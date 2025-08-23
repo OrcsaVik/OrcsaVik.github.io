@@ -3,7 +3,7 @@
 name: "My Cool Nav"
 title: "My Cool Nav"
 description: "炫酷静态导航页 + 博文索引"
-url: "https://github.com/OrcsaVik/OrcsaVik.github.io" # 配置你的仓库 Pages 地址（可留空，GitHub Pages 会自动推断）
+url: "" # 配置你的仓库 Pages 地址（可留空，GitHub Pages 会自动推断）
 baseurl: "" # 若使用 <user>.github.io 置空；若是项目页，写 "/repo-name"
 
 
