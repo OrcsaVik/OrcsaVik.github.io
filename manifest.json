@@ -1,11 +1,10 @@
 {
-  "name": "炫酷导航页",
-  "short_name": "导航页",
+  "name": "OrcsaVik Blog",
+  "short_name": "OrcsaVik",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#111827",
-  "theme_color": "#111827",
-  "description": "一个炫酷的 GitHub Pages 导航页，支持搜索、标签、PWA。",
+  "background_color": "#121212",
+  "theme_color": "#673ab7",
   "icons": [
     {
       "src": "/assets/icons/icon-192.png",

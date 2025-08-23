@@ -1,46 +1,21 @@
-title: "Nav"
-description: "Vik的技术博客"
-baseurl: "" # 你可以保留默认
-url: "https://github.com/OrcsaVik/OrcsaVik.github.io"
+title: "OrcsaVik Blog"
+description: "一个炫酷的 GitHub Pages 静态博客"
+baseurl: "" # username.github.io 时为空
+url: "https://orcsaVik.github.io"
 
-# 自动索引博客文章
-collections:
-  posts:
-    output: true
-    permalink: /:year/:month/:day/:title/
-
-# Markdown & 高亮
+theme: null
 markdown: kramdown
-theme: minima
-
-# 导航栏
-nav:
-  - title: "🏠 首页"
-    url: /
-  - title: "📂 分类"
-    url: /categories
-  - title: "🕒 时间轴"
-    url: /timeline
+highlighter: rouge
 
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-paginate
 
+# 文章相关配置
 paginate: 10
 paginate_path: "/page:num/"
 
-# PWA 配置
-pwa:
-  enabled: true
-
-# SEO + Feed
-feed:
-  path: feed.xml
-
-
-# 构建排除
-exclude:
-- README.md
-# ---
-
+# 站点元数据
+author:
+  name: OrcsaVik
+  email: your_email@example.com

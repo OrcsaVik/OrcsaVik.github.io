@@ -1,26 +1,25 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("search-input");
-    const tagSelect = document.getElementById("tag-select");
-    const posts = [...document.querySelectorAll(".post-card")];
+document.addEventListener("DOMContentLoaded", () => {
+  const input = document.getElementById("search");
+  const posts = document.querySelectorAll(".post-item");
+  const tags = document.querySelectorAll(".tag-filter");
 
-    function filterPosts() {
-        const query = searchInput.value.toLowerCase();
-        const selectedTag = tagSelect.value;
+  // 搜索功能
+  input.addEventListener("keyup", () => {
+    const keyword = input.value.toLowerCase();
+    posts.forEach(post => {
+      const title = post.querySelector("a").textContent.toLowerCase();
+      post.style.display = title.includes(keyword) ? "block" : "none";
+    });
+  });
 
-        posts.forEach(post => {
-            const title = post.querySelector("h2").textContent.toLowerCase();
-            const tags = post.dataset.tags;
-            const matchesQuery = title.includes(query);
-            const matchesTag = !selectedTag || tags.includes(selectedTag);
-
-            if (matchesQuery && matchesTag) {
-                post.style.display = "block";
-            } else {
-                post.style.display = "none";
-            }
-        });
-    }
-
-    searchInput.addEventListener("input", filterPosts);
-    tagSelect.addEventListener("change", filterPosts);
+  // 标签过滤
+  tags.forEach(tag => {
+    tag.addEventListener("click", () => {
+      const filter = tag.dataset.tag;
+      posts.forEach(post => {
+        const tags = post.dataset.tags.split(",");
+        post.style.display = (filter === "all" || tags.includes(filter)) ? "block" : "none";
+      });
+    });
+  });
 });

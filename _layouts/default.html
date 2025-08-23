@@ -1,46 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} | {{ site.title }}</title>
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-    <link id="theme-style" rel="stylesheet" href="{{ '/assets/css/dark.css' | relative_url }}">
-    <link rel="manifest" href="{{ '/manifest.json' | relative_url }}">
-    <meta name="theme-color" content="#111827">
-
-    {% seo %}
+  {% include head.html %}
 </head>
 <body>
-<header class="navbar">
-    <h1><a href="{{ site.baseurl }}/">🚀 {{ site.title }}</a></h1>
-
-    <!-- 搜索框 -->
-    <div class="search-container">
-        <input id="search-input" type="text" placeholder="🔍 搜索文章..." />
-    </div>
-
-    <!-- 标签过滤 -->
-    <div class="tag-filter">
-        <select id="tag-select">
-            <option value="">按标签筛选</option>
-            {% assign tags = site.tags | sort %}
-            {% for tag in tags %}
-                <option value="{{ tag[0] }}">{{ tag[0] }} ({{ tag[1].size }})</option>
-            {% endfor %}
-        </select>
-    </div>
-
-    <!-- 暗/亮主题切换 -->
-    <button id="theme-toggle">🌙</button>
-</header>
-
-<main>
+  {% include header.html %}
+  <main id="content">
     {{ content }}
-</main>
-
-<script src="{{ '/assets/js/search.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/pwa.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/sw-register.js' | relative_url }}"></script>
+  </main>
+  {% include footer.html %}
+  <script src="{{ '/assets/js/search.js' | relative_url }}"></script>
+  <script src="{{ '/assets/js/pwa.js' | relative_url }}"></script>
 </body>
 </html>

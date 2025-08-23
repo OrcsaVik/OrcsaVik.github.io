@@ -2,17 +2,12 @@
 layout: default
 ---
 
-<section class="hero">
-    <h1>🚀 快速直达 · 一键导航</h1>
-    <p>最新文章 · 分类 · 时间轴 · 站点收藏</p>
-</section>
-
-<section class="posts-grid">
-    {% for post in site.posts limit:6 %}
-    <a href="{{ post.url }}" class="post-card">
-        <h3>{{ post.title }}</h3>
-        <p class="date">{{ post.date | date: "%Y-%m-%d" }}</p>
-        <p>{{ post.excerpt | strip_html | truncate: 60 }}</p>
-    </a>
-    {% endfor %}
+<section id="posts">
+  {% for post in site.posts %}
+    <div class="post-item" data-tags="{{ post.tags | join: ',' }}">
+      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
+      <span class="date">{{ post.date | date: "%Y-%m-%d" }}</span>
+    </div>
+  {% endfor %}
 </section>
