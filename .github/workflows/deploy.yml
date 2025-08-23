@@ -3,88 +3,34 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # 监听 main 分支推送
-  # 可选：也可以添加手动触发
-  workflow_dispatch:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: github-pages  # 启用环境保护（可选）
-
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # 获取完整历史，确保可以推送到 gh-pages
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
 
-      - name: Install and Build
-        run: |
-          cd docs
-          # 检查 package.json 是否存在
-          if [ ! -f "package.json" ]; then
-            echo "❌ Error: package.json not found in docs/"
-            exit 1
-          fi
+    - name: Navigate to docs directory and Install dependencies
+      run: |
+        cd docs
+        npm ci
 
-          # 全局安装 VuePress（推荐用于 CI）
-          npm install -g vuepress@^2.0.0-rc.24
+    - name: Build the project
+      run: |
+        cd docs
+        npx vuepress build .
 
-          # 安装本地依赖
-          npm install
-
-          # 执行构建
-          echo "🚀 Building VuePress site..."
-          npm run build
-
-          # 验证构建输出
-          if [ ! -d ".vuepress/dist" ]; then
-            echo "❌ Build failed: dist directory not generated!"
-            exit 1
-          fi
-
-          echo "✅ Build completed successfully. Files:"
-          ls -la .vuepress/dist
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          # 指定发布目录（可选，与 publish_dir 一致）
-          path: ./docs/.vuepress/dist
-          # 可设置自定义域名
-          # cname: yourdomain.com
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/.vuepress/dist
-          publish_branch: gh-pages
-          # 清理旧文件
-          force_orphan: true
-          # 保留 .nojekyll 文件（VuePress 需要）
-          keep_files: false
-          # 提交信息
-          commit_message: "docs: deploy site via GitHub Actions [skip ci]"
-
-      - name: Success Notification
-        if: success()
-        run: |
-          echo "🎉 Deployment to GitHub Pages succeeded!"
-          echo "🌐 Your site: https://orcsavik.github.io"
-
-      - name: Failure Notification
-        if: failure()
-        run: |
-          echo "🚨 Deployment failed! Check logs above."
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs/.vuepress/dist
