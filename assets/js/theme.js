@@ -1,34 +1,49 @@
-(() => {
+/* assets/js/theme.js
+   简单主题切换：在 <html> 上设置 data-theme="light" 或 "dark"
+   默认：优先 localStorage -> 系统偏好 -> dark
+*/
+
+(function(){
   const root = document.documentElement;
   const btn = document.getElementById('theme-toggle');
 
-  function currentTheme() {
-    const saved = localStorage.getItem('theme');
-    if (saved) return saved;
-    // 如果用户偏好系统主题则默认使用
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      return 'light';
-    }
-    return 'dark';
+  function getSaved(){
+    try{
+      return localStorage.getItem('theme');
+    }catch(e){ return null; }
   }
 
-  function applyTheme(theme) {
-    if (theme === 'light') {
+  function save(theme){
+    try{ localStorage.setItem('theme', theme); }catch(e){}
+  }
+
+  function systemPrefersLight(){
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  }
+
+  function current(){
+    const s = getSaved();
+    if (s) return s;
+    return systemPrefersLight() ? 'light' : 'dark';
+  }
+
+  function apply(theme){
+    if (theme === 'light'){
       root.setAttribute('data-theme', 'light');
-      btn.textContent = '☀️';
+      if (btn) btn.textContent = '☀️';
     } else {
       root.setAttribute('data-theme', 'dark');
-      btn.textContent = '🌙';
+      if (btn) btn.textContent = '🌙';
     }
   }
 
-  // toggle
-  btn && btn.addEventListener('click', () => {
-    const t = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
-    localStorage.setItem('theme', t);
-    applyTheme(t);
-  });
+  if (btn){
+    btn.addEventListener('click', () => {
+      const now = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      save(now);
+      apply(now);
+    });
+  }
 
-  // init
-  applyTheme(currentTheme());
+  apply(current());
 })();

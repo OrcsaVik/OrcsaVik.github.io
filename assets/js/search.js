@@ -1,33 +1,40 @@
-// search.js
-// 说明：简单、稳定的前端搜索（无需第三方库）。
-// 实现：在页面加载时 fetch('/search.json') 获取索引数组，
-// 然后在输入框中进行小写包含匹配（标题/摘要/正文/标签），并渲染 posts-grid。
+/* assets/js/search.js
+   前端搜索与标签过滤（基于构建时生成的 /search.json）
+   兼容离线（若 search.json 未能加载，页面早已渲染静态卡片作为降级）
+*/
 
-(() => {
+(function(){
   const searchInput = document.getElementById('search-input');
   const tagSelect = document.getElementById('tag-select');
   const postsGrid = document.getElementById('posts-grid');
 
-  let index = []; // 将保存 search.json 内容
+  let index = [];
 
-  // fetch search index
-  async function loadIndex() {
-    try {
-      const res = await fetch("{{ '/' | relative_url }}search.json".replace(/^\/\//,'/'));
-      if (!res.ok) throw new Error('index fetch failed');
+  // 安全 fetch，路径使用根相对 /search.json
+  async function loadIndex(){
+    try{
+      const res = await fetch('/search.json', {cache: 'no-store'});
+      if (!res.ok) throw new Error('search.json not found');
       index = await res.json();
-    } catch (err) {
-      // 如果 fetch 失败，index 保持空，页面上已有卡片（降级）
-      console.warn('搜索索引加载失败：', err);
+    }catch(e){
+      console.warn('加载搜索索引失败，启用降级渲染：', e);
       index = [];
     }
   }
 
-  // render posts from an array of items (each item corresponds to search.json entry)
-  function renderPosts(items) {
+  // HTML escape
+  function escapeHtml(str){
+    if (!str) return '';
+    return str.replace(/[&<>"'\/]/g, s => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;'
+    })[s]);
+  }
+
+  // 渲染结果列表（覆盖 postsGrid）
+  function renderPosts(items){
     if (!postsGrid) return;
     postsGrid.innerHTML = '';
-    if (!items || items.length === 0) {
+    if (!items || items.length === 0){
       postsGrid.innerHTML = '<p style="grid-column:1/-1;color:var(--muted)">未找到匹配的文章。</p>';
       return;
     }
@@ -40,7 +47,7 @@
         <a class="post-link" href="${it.url}">
           <h3 class="post-title">${escapeHtml(it.title)}</h3>
         </a>
-        <div class="post-meta"><span class="post-date">${it.date}</span>${it.tags && it.tags.length ? '<span class="post-tags"> · ' + escapeHtml(it.tags.join(', ')) + '</span>' : ''}</div>
+        <div class="post-meta"><span class="post-date">${escapeHtml(it.date)}</span>${it.tags && it.tags.length ? '<span class="post-tags"> · ' + escapeHtml(it.tags.join(', ')) + '</span>' : ''}</div>
         <p class="post-excerpt">${escapeHtml(it.excerpt || '')}</p>
       `;
       frag.appendChild(art);
@@ -48,28 +55,20 @@
     postsGrid.appendChild(frag);
   }
 
-  // simple HTML escape to avoid injection
-  function escapeHtml(str) {
-    if (!str) return '';
-    return str.replace(/[&<>"'\/]/g, s => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;','/':'&#x2F;'
-    })[s]);
-  }
-
-  // search logic: filter index by query and tag; substring match on title/excerpt/content/tags
-  function performSearch() {
-    if (!index.length) return; // index empty -> do nothing (fallback to built-in cards)
-    const q = (searchInput.value || '').trim().toLowerCase();
-    const tag = (tagSelect.value || '').trim().toLowerCase();
+  // 执行搜索与标签过滤
+  function performSearch(){
+    if (!index.length) return; // 若没有索引，则不替换页面（保留 Jekyll 渲染的内容）
+    const q = (searchInput && searchInput.value || '').trim().toLowerCase();
+    const tag = (tagSelect && tagSelect.value || '').trim().toLowerCase();
 
     const results = index.filter(item => {
-      // tag filter
-      if (tag && item.tags && item.tags.length) {
-        const tagsLower = item.tags.map(t => t.toLowerCase());
+      // 标签过滤
+      if (tag){
+        const tagsLower = (item.tags || []).map(t => (t||'').toLowerCase());
         if (!tagsLower.includes(tag)) return false;
       }
       if (!q) return true;
-      // search in title/excerpt/content/tags
+      // 标题/摘要/内容/标签包含匹配
       const inTitle = (item.title || '').toLowerCase().includes(q);
       const inExcerpt = (item.excerpt || '').toLowerCase().includes(q);
       const inContent = (item.content || '').toLowerCase().includes(q);
@@ -80,34 +79,32 @@
     renderPosts(results);
   }
 
-  // events
-  async function init() {
-    await loadIndex();
+  // debounce
+  function debounce(fn, wait){
+    let t;
+    return function(...args){
+      clearTimeout(t);
+      t = setTimeout(()=>fn.apply(this,args), wait);
+    };
+  }
 
-    // if index loaded, render all posts from index (ensures consistent card layout)
-    if (index.length && postsGrid) {
+  // 初始化
+  async function init(){
+    await loadIndex();
+    if (index.length && postsGrid){
+      // 使用索引完全渲染（统一样式），否则保留 Jekyll 已渲染的卡片
       renderPosts(index);
     }
 
-    if (searchInput) {
+    if (searchInput){
       searchInput.addEventListener('input', debounce(performSearch, 160));
     }
-    if (tagSelect) {
+    if (tagSelect){
       tagSelect.addEventListener('change', performSearch);
     }
   }
 
-  // debounce helper
-  function debounce(fn, wait) {
-    let t;
-    return function(...args) {
-      clearTimeout(t);
-      t = setTimeout(() => fn.apply(this, args), wait);
-    };
-  }
-
-  // initialize after DOM ready
-  if (document.readyState === 'loading') {
+  if (document.readyState === 'loading'){
     document.addEventListener('DOMContentLoaded', init);
   } else {
     init();
