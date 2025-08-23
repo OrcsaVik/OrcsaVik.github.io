@@ -4,11 +4,11 @@
   "description": "Orcsa Vik's personal portfolio & blog site",
   "scripts": {
     "dev": "vuepress dev docs",
-    "build": "vuepress build docs"
+    "build": "vuepress build ."
   },
   "license": "MIT",
   "devDependencies": {
     "@vuepress/theme-default": "^2.0.0-rc.12",
-    "vuepress": "^2.0.0-rc.12"
+    "vuepress": "^2.0.0-rc.24"
   }
 }
