@@ -1,13 +1,26 @@
 <header class="site-header">
-  <div class="container">
-    <h1 class="logo"><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
-    <nav>
-      <input id="search" type="text" placeholder="🔍 搜索文章..." />
-      <div class="tags">
-        <button class="tag-filter" data-tag="all">全部</button>
-        <button class="tag-filter" data-tag="教程">教程</button>
-        <button class="tag-filter" data-tag="工具">工具</button>
-      </div>
+  <div class="site-header-inner">
+    <div class="brand">
+      <a href="{{ '/' | relative_url }}" class="logo">OrcsaVik</a>
+    </div>
+
+    <nav class="main-nav">
+      <a href="{{ '/' | relative_url }}">导航</a>
+      <a href="{{ '/categories.html' | relative_url }}">分类</a>
+      <a href="{{ '/timeline.html' | relative_url }}">时间轴</a>
+      <a href="https://github.com/OrcsaVik/OrcsaVik.github.io" target="_blank" rel="noopener">GitHub</a>
     </nav>
+
+    <div class="controls">
+      <input id="search-input" class="search-input" type="search" placeholder="🔍 搜索文章（标题/摘要/内容）" aria-label="搜索文章">
+      <select id="tag-select" class="tag-select" aria-label="筛选标签">
+        <option value="">所有标签</option>
+        {% assign tags_sorted = site.tags | sort %}
+        {% for t in tags_sorted %}
+          <option value="{{ t[0] }}">{{ t[0] }}（{{ t[1].size }}）</option>
+        {% endfor %}
+      </select>
+      <button id="theme-toggle" class="theme-toggle" aria-label="切换主题">🌙</button>
+    </div>
   </div>
 </header>

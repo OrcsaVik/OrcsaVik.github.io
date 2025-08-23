@@ -1,21 +1,17 @@
-title: "OrcsaVik Blog"
-description: "一个炫酷的 GitHub Pages 静态博客"
-baseurl: "" # username.github.io 时为空
-url: "https://orcsaVik.github.io"
+title: "OrcsaVik"
+description: "炫酷导航页 · 自动索引 · 搜索 · PWA"
+baseurl: ""          # 如果是 username.github.io 留空；如果是项目页写 "/repo-name"
+url: "https://orcsavik.github.io"
 
+# 不使用外部主题，以确保完全可控
 theme: null
 markdown: kramdown
 highlighter: rouge
 
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-
-# 文章相关配置
+# Jekyll 默认能处理 site.posts, site.tags 等，不使用自定义插件（兼容 GitHub Pages）
 paginate: 10
 paginate_path: "/page:num/"
 
-# 站点元数据
+# site author
 author:
-  name: OrcsaVik
-  email: your_email@example.com
+  name: "OrcsaVik"

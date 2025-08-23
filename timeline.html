@@ -1,0 +1,19 @@
+---
+layout: default
+title: 时间轴
+permalink: /timeline.html
+---
+
+<section class="timeline-section container">
+  <h2 class="section-title">时间轴</h2>
+  <ol class="timeline-list">
+    {% assign posts_by_date = site.posts | sort: 'date' | reverse %}
+    {% for post in posts_by_date %}
+      <li class="timeline-item">
+        <time class="timeline-date">{{ post.date | date: "%Y-%m-%d" }}</time>
+        <a href="{{ post.url | relative_url }}" class="timeline-title">{{ post.title }}</a>
+        <p class="timeline-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+      </li>
+    {% endfor %}
+  </ol>
+</section>

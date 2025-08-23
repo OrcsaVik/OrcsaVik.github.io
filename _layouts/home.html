@@ -1,13 +1,32 @@
 ---
 layout: default
+title: 首页
 ---
 
-<section id="posts">
-  {% for post in site.posts %}
-    <div class="post-item" data-tags="{{ post.tags | join: ',' }}">
-      <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-      <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
-      <span class="date">{{ post.date | date: "%Y-%m-%d" }}</span>
-    </div>
-  {% endfor %}
+<section class="hero">
+  <div class="hero-inner">
+    <h1>快速抵达 · 一键直达</h1>
+    <p class="hero-sub">将文章放入 <code>_posts/</code>，首页会自动索引并以卡片形式展示。支持搜索、标签筛选及离线 PWA。</p>
+  </div>
+</section>
+
+<section class="posts-section">
+  <h2 class="section-title">最新文章</h2>
+  <div id="posts-grid" class="posts-grid">
+    {% assign posts_sorted = site.posts | sort: 'date' | reverse %}
+    {% for post in posts_sorted %}
+    <article class="post-card" data-tags="{{ post.tags | join: ',' }}" data-title="{{ post.title | downcase }}">
+      <a class="post-link" href="{{ post.url | relative_url }}">
+        <h3 class="post-title">{{ post.title }}</h3>
+      </a>
+      <div class="post-meta">
+        <span class="post-date">{{ post.date | date: "%Y-%m-%d" }}</span>
+        {% if post.tags %}
+          <span class="post-tags"> · {{ post.tags | join: ', ' }}</span>
+        {% endif %}
+      </div>
+      <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 140 }}</p>
+    </article>
+    {% endfor %}
+  </div>
 </section>
