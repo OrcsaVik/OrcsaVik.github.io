@@ -2,13 +2,22 @@
   "name": "orcsavik-website",
   "version": "1.0.0",
   "description": "Orcsa Vik's personal portfolio & blog site",
+  "main": "index.js",
   "scripts": {
     "dev": "vuepress dev .",
     "build": "vuepress build ."
   },
+  "keywords": [
+    "vuepress",
+    "portfolio",
+    "blog",
+    "personal-site"
+  ],
+  "author": "Orcsa Vik",
   "license": "MIT",
   "devDependencies": {
-    "@vuepress/theme-default": "^2.0.0-rc.12",
-    "vuepress": "^2.0.0-rc.24"
+    "vuepress": "^2.0.0-rc.24",
+    "@vuepress/theme-default": "^2.0.0-rc.24",
+    "@vuepress/bundler-webpack": "^2.0.0-rc.24"
   }
 }
