@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Orcsa Vik's personal portfolio & blog site",
   "scripts": {
-    "dev": "vuepress dev docs",
+    "dev": "vuepress dev .",
     "build": "vuepress build ."
   },
   "license": "MIT",
