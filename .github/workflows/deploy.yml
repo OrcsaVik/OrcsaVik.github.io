@@ -18,6 +18,7 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
+        cache-dependency-path: docs/package-lock.json  # 👈 明确指定路径
 
     - name: Navigate to docs directory and Install dependencies
       run: |
