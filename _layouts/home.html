@@ -1,21 +1,21 @@
 ---
 layout: default
-title: 首页
+title: Home
 ---
 
 <section class="hero">
   <div class="hero-inner">
-    <h1><strong>Vik的github技术博客</strong></h1>
-    
+    <h1><strong>Vik's GitHub Tech Blog</strong></h1>
+    <p class="hero-sub">Exploring technology, one post at a time</p>
   </div>
 </section>
 
 <section class="posts-section">
-  <h2 class="section-title">最新文章</h2>
-  <div id="posts-grid" class="posts-grid">
+  <h2 class="section-title">Latest Posts</h2>
+  <div class="posts-grid">
     {% assign posts_sorted = site.posts | sort: 'date' | reverse %}
     {% for post in posts_sorted %}
-    <article class="post-card" data-tags="{{ post.tags | join: ',' }}" data-title="{{ post.title | downcase }}">
+    <article class="post-card">
       <a class="post-link" href="{{ post.url | relative_url }}">
         <h3 class="post-title">{{ post.title }}</h3>
       </a>

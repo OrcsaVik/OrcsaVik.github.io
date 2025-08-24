@@ -1,6 +1,6 @@
 ---
 layout: home
-title: 首页
+title: Home
 ---
 
-<!-- 首页内容由 layouts/home.html 渲染 -->
+<!-- Home page content is rendered by layouts/home.html -->
