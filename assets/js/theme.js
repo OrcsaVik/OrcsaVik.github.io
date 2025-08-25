@@ -1,13 +1,13 @@
 /* assets/js/theme.js
-   深色主题增强模式：提供动态视觉效果切换
-   功能：背景动画开关、卡片效果增强、性能模式切换
+   Enhanced Theme Mode Switcher with SVG Icons
+   Features: Dynamic visual effects, performance modes, minimal mode
 */
 
 (function(){
   const root = document.documentElement;
   const btn = document.getElementById('theme-toggle');
   
-  // 当前模式状态
+  // Current mode state
   let currentMode = 'enhanced'; // enhanced, performance, minimal
   
   function getSaved(){
@@ -23,34 +23,44 @@
   function applyMode(mode){
     currentMode = mode;
     
-    // 移除所有模式类
+    // Remove all mode classes
     root.classList.remove('mode-enhanced', 'mode-performance', 'mode-minimal');
     
-    // 应用新模式
+    // Apply new mode
     root.classList.add(`mode-${mode}`);
     
-    // 更新按钮显示
+    // Update button display and SVG icons
     if (btn) {
-      const icons = {
-        'enhanced': '✨',
-        'performance': '⚡',
-        'minimal': '🎯'
-      };
-      btn.textContent = icons[mode] || '✨';
-      btn.title = `当前模式: ${getModeName(mode)}`;
+      const icons = btn.querySelectorAll('.theme-icon');
+      icons.forEach(icon => icon.style.display = 'none');
+      
+      const activeIcon = btn.querySelector(`.${mode}-icon`);
+      if (activeIcon) {
+        activeIcon.style.display = 'block';
+      }
+      
+      // Update tooltip
+      btn.title = `Current mode: ${getModeName(mode)}`;
+      
+      // Add visual feedback
+      btn.classList.add('mode-changed');
+      setTimeout(() => btn.classList.remove('mode-changed'), 300);
     }
     
-    // 保存设置
+    // Save settings
     save(mode);
+    
+    // Dispatch custom event for other components
+    document.dispatchEvent(new CustomEvent('themeModeChanged', { detail: { mode } }));
   }
   
   function getModeName(mode) {
     const names = {
-      'enhanced': '增强模式',
-      'performance': '性能模式', 
-      'minimal': '极简模式'
+      'enhanced': 'Enhanced Mode',
+      'performance': 'Performance Mode', 
+      'minimal': 'Minimal Mode'
     };
-    return names[mode] || '增强模式';
+    return names[mode] || 'Enhanced Mode';
   }
   
   function cycleMode() {
@@ -60,7 +70,7 @@
     applyMode(modes[nextIndex]);
   }
 
-  // 初始化
+  // Initialize
   if (btn){
     btn.addEventListener('click', cycleMode);
     btn.addEventListener('mouseenter', () => {
@@ -69,16 +79,41 @@
     btn.addEventListener('mouseleave', () => {
       btn.style.transform = 'scale(1) rotate(0deg)';
     });
+    
+    // Add keyboard navigation
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        cycleMode();
+      }
+    });
   }
 
-  // 应用保存的模式
+  // Apply saved mode
   applyMode(getSaved());
   
-  // 添加键盘快捷键支持
-  document.addEventListener('keydown', (e) => {
+  // Add keyboard shortcuts
+  document.addEventListener('themeModeChanged', (e) => {
     if (e.ctrlKey && e.key === 't') {
       e.preventDefault();
       cycleMode();
     }
   });
+  
+  // Auto-detect system preference for initial load
+  function detectSystemPreference() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return 'minimal';
+    }
+    return 'enhanced';
+  }
+  
+  // Listen for system preference changes
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+      if (e.matches && currentMode === 'enhanced') {
+        applyMode('minimal');
+      }
+    });
+  }
 })();

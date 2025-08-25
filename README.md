@@ -5,12 +5,12 @@ A modern, responsive Jekyll blog with a stunning dark aesthetic and card-based d
 
 ## ✨ Features
 
-- **🎨 Dark-Only Theme**: Sophisticated dark aesthetic with dynamic gradients
-- **🃏 Card-Based Layout**: Beautiful post cards with hover animations
-- **📱 Fully Responsive**: Optimized for all device sizes
-- **🌈 Dynamic Backgrounds**: Animated gradient backgrounds with subtle patterns
+- **🎨 Enhanced Theme System**: Three theme modes (Enhanced, Performance, Minimal) with smart SVG icons
+- **🃏 Card-Based Layout**: Beautiful post cards with hover animations and theme-aware effects
+- **📱 Fully Responsive**: Optimized for all device sizes with adaptive theme controls
+- **🌈 Dynamic Backgrounds**: Animated gradient backgrounds with theme-specific intensity
 - **✨ Enhanced Typography**: Gradient text effects and smooth transitions
-- **🚀 Performance Optimized**: Lightweight and fast loading
+- **🚀 Performance Optimized**: Lightweight and fast loading with performance mode options
 
 ## 🎯 Design Highlights
 
@@ -149,11 +149,25 @@ Your post content here...
 - Gradient text animations
 - Navigation hover effects
 
+## 🎭 Theme System
+
+### Three Theme Modes
+- **✨ Enhanced Mode**: Full dynamic effects with animated backgrounds, glowing cards, and smooth transitions
+- **⚡ Performance Mode**: Reduced animations for better performance while maintaining visual appeal  
+- **🎯 Minimal Mode**: Clean, distraction-free experience with minimal effects
+
+### Key Features
+- **Smart SVG Icons**: Beautiful third-party SVG components for each theme mode
+- **Global Synchronization**: All components automatically adapt to theme changes
+- **System Preference Detection**: Automatically switches to minimal mode for users with reduced motion preferences
+- **Keyboard Shortcuts**: Ctrl+T to cycle through themes
+- **Persistent Storage**: Remembers your theme preference across sessions
+
 ## 🚫 Removed Features
 
 - **Search functionality**: Simplified for performance
 - **PWA/Service Worker**: Focused on core blog experience
-- **Light theme**: Dark-only for consistent aesthetic
+- **Light theme**: Dark-only for consistent aesthetic with enhanced theme modes
 
 ## 🔮 Future Enhancements
 

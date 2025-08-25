@@ -12,7 +12,18 @@
     </nav>
 
     <div class="controls">
-      <button id="theme-toggle" class="theme-toggle" aria-label="切换主题模式" title="当前模式: 增强模式">✨</button>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme mode" title="Current mode: Enhanced">
+        <svg class="theme-icon enhanced-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z" fill="currentColor"/>
+        </svg>
+        <svg class="theme-icon performance-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor"/>
+        </svg>
+        <svg class="theme-icon minimal-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"/>
+          <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" fill="none"/>
+        </svg>
+      </button>
     </div>
   </div>
 </header>
